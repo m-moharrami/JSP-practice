@@ -50,5 +50,22 @@
             Actor actor = new Actor();
             ResultSet actors = actor.getActors();
         %>
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td>Actor ID</td>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                </tr>
+                <% while (actors.next()) { %>
+                <tr>
+                    <td><%= actors.getInt("actor_id") %></td>
+                    <td><%= actors.getString("first_name") %></td>
+                    <td><%= actors.getString("last_name") %></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+
     </body>
 </html>
