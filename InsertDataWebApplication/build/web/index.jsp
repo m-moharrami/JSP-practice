@@ -24,28 +24,52 @@
                 String PASSWORD = "Moharram98";
 
                 Connection connection = null;
-                PreparedStatement selectActors = null;
+                PreparedStatement insertActors = null;
                 ResultSet resultSet = null;
 
                 public Actor() {
                     try {
                         connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-                        selectActors = connection.prepareStatement(
-                                "SELECT actor_id, first_name, last_name FROM actor");
+                        insertActors = connection.prepareStatement(
+                                "INSERT INTO actor (first_name, last_name, last_update)"
+                                + " VALUES (?, ?, ?)");
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
 
-                public ResultSet getActors() {
+                public int setActors(String first, String last, Timestamp timeStamp) {
+                    int result = 0;
                     try {
-                        resultSet = selectActors.executeQuery();
+                        insertActors.setString(1, first);
+                        insertActors.setString(2, last);
+                        insertActors.setTimestamp(3, timeStamp);
+                        result = insertActors.executeUpdate();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    return resultSet;
+                    return result;
                 }
             }
+        %>
+        <%
+            int result = 0;
+            String firstName = new String();
+            String lastName = new String();
+
+            if (request.getParameter("first") != null) {
+                firstName = request.getParameter("first");
+            }
+
+            if (request.getParameter("last") != null) {
+                lastName = request.getParameter("last");
+            }
+
+            Date date = new Date();
+            Timestamp timeStamp = new Timestamp(date.getTime());
+
+            Actor actor = new Actor();
+            result = actor.setActors(firstName, lastName, timeStamp);
         %>
         <form name="myForm" action="index.jsp" method="POST">
             <table border="0">
