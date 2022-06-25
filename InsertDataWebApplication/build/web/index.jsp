@@ -54,22 +54,26 @@
         %>
         <%
             int result = 0;
-            String firstName = new String();
-            String lastName = new String();
+            
+            // This `if` condition is to see if the "submit" button has been pushed, and don't execute the code if not 
+            if (request.getParameter("submit") != null) {
+                String firstName = new String();
+                String lastName = new String();
 
-            if (request.getParameter("first") != null) {
-                firstName = request.getParameter("first");
+                if (request.getParameter("first") != null) {
+                    firstName = request.getParameter("first");
+                }
+
+                if (request.getParameter("last") != null) {
+                    lastName = request.getParameter("last");
+                }
+
+                Date date = new Date();
+                Timestamp timeStamp = new Timestamp(date.getTime());
+
+                Actor actor = new Actor();
+                result = actor.setActors(firstName, lastName, timeStamp);
             }
-
-            if (request.getParameter("last") != null) {
-                lastName = request.getParameter("last");
-            }
-
-            Date date = new Date();
-            Timestamp timeStamp = new Timestamp(date.getTime());
-
-            Actor actor = new Actor();
-            result = actor.setActors(firstName, lastName, timeStamp);
         %>
         <form name="myForm" action="index.jsp" method="POST">
             <table border="0">
