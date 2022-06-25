@@ -14,7 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Inserting Data Into a Database</title>
     </head>
-    <body>
+    <body onLoad="displayResults()">
         <h1>Inserting Data Into a Database</h1>
         <%!
             public class Actor {
@@ -54,7 +54,7 @@
         %>
         <%
             int result = 0;
-            
+
             // This `if` condition is to see if the "submit" button has been pushed, and don't execute the code if not 
             if (request.getParameter("submit") != null) {
                 String firstName = new String();
@@ -88,8 +88,16 @@
                     </tr>
                 </tbody>
             </table>
+            <input type="hidden" value="<%= result%>" name="hidden" />
             <input type="reset" value="Clear" name="clear" />
             <input type="submit" value="submit" name="submit" />
         </form>
+        <script>
+            function displayResults() {
+                if (document.myForm.hidden.value == 1) {
+                    alert("Data Inserted!");
+                }
+            }
+        </script>
     </body>
 </html>
